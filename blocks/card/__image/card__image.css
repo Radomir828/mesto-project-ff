@@ -7,7 +7,3 @@
 .card__image:hover {
   cursor: pointer;
 }
-
-.filter-brightness {
-  filter: brightness(0.5);
-}

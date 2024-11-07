@@ -11,7 +11,7 @@
 const cardsList = document.querySelector(".places__list");
 const addButton = document.querySelector(".profile__add-button");
 
-function addCard(cardData, deleteCard) {
+function createCard(cardData, deleteCard) {
   const cardTemplate = document.querySelector("#card-template").content;
 
   const cardElement = cardTemplate.querySelector(".card").cloneNode(true);
@@ -19,6 +19,7 @@ function addCard(cardData, deleteCard) {
   const cardElementTitle = cardElement.querySelector(".card__title");
 
   cardElementImage.src = cardData.link;
+  cardElementImage.alt = cardData.name;
   cardElementTitle.textContent = cardData.name;
 
   const cardElementDeleteButton = cardElement.querySelector(
@@ -37,12 +38,6 @@ function deleteCard(cardElement) {
 
 // добавляем все карточки на страницу
 initialCards.forEach((cardData) => {
-  const cardElement = addCard(cardData, deleteCard);
-
-  // для второй карточки добавляем фильтр, чтобы была видна инонка удаления карточки
-  if (cardData.name === "Челябинская область") {
-    let cardImage = cardElement.querySelector(".card__image");
-    cardImage.classList.add("filter-brightness");
-  }
+  const cardElement = createCard(cardData, deleteCard);
   cardsList.append(cardElement);
 });
