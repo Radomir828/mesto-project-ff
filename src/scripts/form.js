@@ -1,25 +1,27 @@
 import { closeModal } from "./modal";
-import { createCard, deleteCard, handleLike, handleImageModal } from "./card";
-import { popupEdit, popupAddCard, cardsList } from "./index.js";
+import { createCard, deleteCard, likeCard } from "./card";
+import {
+  popupEdit,
+  popupAddCard,
+  cardsContainer,
+  nameInput,
+  jobInput,
+  cardNameInput,
+  cardUrlInput,
+  profileTitle,
+  profileDescription,
+  openImageModal,
+} from "./index.js";
 
-const nameInput = document.querySelector(".popup__input_type_name");
-const jobInput = document.querySelector(".popup__input_type_description");
-
-const cardNameInput = document.querySelector(".popup__input_type_card-name");
-const cardUrlInput = document.querySelector(".popup__input_type_url");
-
-export const handleFormEditInput = (event) => {
+export const handleProfileEditFormSubmit = (event) => {
   event.preventDefault();
-
-  const profileTitle = document.querySelector(".profile__title");
-  const profileDescription = document.querySelector(".profile__description");
 
   profileTitle.textContent = nameInput.value;
   profileDescription.textContent = jobInput.value;
   closeModal(popupEdit);
 };
 
-export const handleFormAddCard = (event) => {
+export const handleFormAddCardSubmit = (event) => {
   event.preventDefault();
 
   const cardData = {
@@ -29,9 +31,13 @@ export const handleFormAddCard = (event) => {
   const cardElement = createCard(
     cardData,
     deleteCard,
-    handleLike,
-    handleImageModal
+    likeCard,
+    openImageModal
   );
-  cardsList.prepend(cardElement);
+  cardsContainer.prepend(cardElement);
   closeModal(popupAddCard);
+
+  // после успешного сабмита, очищаем поля формы
+  const form = event.target;
+  form.reset();
 };
