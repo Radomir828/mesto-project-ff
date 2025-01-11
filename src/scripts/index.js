@@ -7,6 +7,8 @@ import {
   handleFormAddCardSubmit,
 } from "./form.js";
 
+import { enableValidation, clearValidation } from "./validation.js";
+
 export const cardsContainer = document.querySelector(".places__list");
 
 export const popupEdit = document.querySelector(".popup_type_edit"); // модальное окно для редактирования
@@ -63,13 +65,28 @@ const setProfileFormIinitialValues = () => {
 
 // функция для открытыя модального окна "Редактирование профиля"
 const openEditProfileModal = () => {
-  openModal(popupEdit);
   setProfileFormIinitialValues();
+  clearValidation(formEditProfile, selectors);
+  openModal(popupEdit);
 };
 
 // открываем модальные окна
 editProfileButton.addEventListener("click", () => openEditProfileModal());
-addCardButton.addEventListener("click", () => openModal(popupAddCard));
+addCardButton.addEventListener("click", () => {
+  openModal(popupAddCard);
+  clearValidation(formAddCard, selectors);
+});
 
 formEditProfile.addEventListener("submit", handleProfileEditFormSubmit);
 formAddCard.addEventListener("submit", handleFormAddCardSubmit);
+
+const selectors = {
+  formSelector: ".popup__form",
+  inputSelector: ".popup__input",
+  submitButtonSelector: ".popup__button",
+  inactiveButtonClass: "popup__button_disabled",
+  inputErrorClass: "popup__input_type_error",
+  errorClass: "popup__input-error-visible",
+};
+
+enableValidation(selectors);

@@ -11,7 +11,17 @@
   border-radius: 2px;
   border: none;
   transition: visibility 0s, background 0.3s;
-  margin-top: 48px;
+  margin-top: 18px;
+  transition: 0.4s;
+}
+
+.popup__button_disabled {
+  pointer-events: none;
+  background: #ffffff;
+  color: #000000;
+  border: 1px solid #000000;
+  border-radius: 2px;
+  opacity: 0.2;
 }
 
 .popup__button:hover {
