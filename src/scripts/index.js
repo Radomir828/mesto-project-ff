@@ -1,11 +1,12 @@
 import "../pages/index.css";
-import { initialCards } from "./cards.js";
 import { createCard, deleteCard, likeCard } from "./card.js";
 import { openModal } from "./modal.js";
 import {
   handleProfileEditFormSubmit,
   handleFormAddCardSubmit,
 } from "./form.js";
+
+import { getInitialProfileData, getInitialCards } from "./api.js";
 
 import { enableValidation, clearValidation } from "./validation.js";
 
@@ -35,6 +36,7 @@ export const profileTitle = document.querySelector(".profile__title");
 export const profileDescription = document.querySelector(
   ".profile__description"
 );
+const profileImage = document.querySelector(".profile__image");
 
 export const popupImage = document.querySelector(".popup__image");
 export const popupImageDescription = document.querySelector(".popup__caption");
@@ -46,26 +48,15 @@ export const openImageModal = (cardData) => {
   openModal(popupOpenImage);
 };
 
-// добавляем все карточки на страницу
-initialCards.forEach((cardData) => {
-  const cardElement = createCard(
-    cardData,
-    deleteCard,
-    likeCard,
-    openImageModal
-  );
-  cardsContainer.append(cardElement);
-});
-
 // ставить значения в поля формы из профиля
-const setProfileFormIinitialValues = () => {
+const setProfileFormInitialValues = () => {
   nameInput.value = profileTitle.textContent;
   jobInput.value = profileDescription.textContent;
 };
 
 // функция для открытыя модального окна "Редактирование профиля"
 const openEditProfileModal = () => {
-  setProfileFormIinitialValues();
+  setProfileFormInitialValues();
   clearValidation(formEditProfile, selectors);
   openModal(popupEdit);
 };
@@ -90,3 +81,26 @@ const selectors = {
 };
 
 enableValidation(selectors);
+
+getInitialProfileData()
+  .then((result) => {
+    console.log(result.avatar);
+    profileTitle.textContent = result.name;
+    profileDescription.textContent = result.about;
+    profileImage.style.backgroundImage = `url(${result.avatar})`;
+  })
+  .catch((err) => console.log(err));
+
+getInitialCards()
+  .then((result) => {
+    result.forEach((cardData) => {
+      const cardElement = createCard(
+        cardData,
+        deleteCard,
+        likeCard,
+        openImageModal
+      );
+      cardsContainer.append(cardElement);
+    });
+  })
+  .catch((err) => console.log(err));
