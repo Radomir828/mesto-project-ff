@@ -13,12 +13,12 @@ import {
   openImageModal,
 } from "./index.js";
 
-import { testEditProfile } from "./api.js";
+import { editProfile } from "./api.js";
 
 export const handleProfileEditFormSubmit = (event) => {
   event.preventDefault();
 
-  testEditProfile(nameInput.value, jobInput.value)
+  editProfile(nameInput.value, jobInput.value)
     .then((data) => {
       profileTitle.textContent = data.name;
       profileDescription.textContent = data.about;

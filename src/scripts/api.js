@@ -25,7 +25,7 @@ export const getInitialCards = () => {
   }).then(checkResponse);
 };
 
-export const testEditProfile = (nameInput, aboutInput) => {
+export const editProfile = (nameInput, aboutInput) => {
   return fetch(`${config.baseUrl}/users/me`, {
     method: "PATCH",
     headers: config.headers,

@@ -6,11 +6,7 @@ import {
   handleFormAddCardSubmit,
 } from "./form.js";
 
-import {
-  getInitialProfileData,
-  getInitialCards,
-  testEditProfile,
-} from "./api.js";
+import { getInitialProfileData, getInitialCards } from "./api.js";
 
 import { enableValidation, clearValidation } from "./validation.js";
 
