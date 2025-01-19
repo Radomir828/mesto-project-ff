@@ -6,7 +6,11 @@ import {
   handleFormAddCardSubmit,
 } from "./form.js";
 
-import { getInitialProfileData, getInitialCards } from "./api.js";
+import {
+  getInitialProfileData,
+  getInitialCards,
+  testEditProfile,
+} from "./api.js";
 
 import { enableValidation, clearValidation } from "./validation.js";
 
@@ -84,12 +88,11 @@ enableValidation(selectors);
 
 getInitialProfileData()
   .then((result) => {
-    console.log(result.avatar);
     profileTitle.textContent = result.name;
     profileDescription.textContent = result.about;
     profileImage.style.backgroundImage = `url(${result.avatar})`;
   })
-  .catch((err) => console.log(err));
+  .catch((err) => console.error(err));
 
 getInitialCards()
   .then((result) => {
@@ -103,4 +106,4 @@ getInitialCards()
       cardsContainer.append(cardElement);
     });
   })
-  .catch((err) => console.log(err));
+  .catch((err) => console.error(err));

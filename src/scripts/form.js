@@ -13,11 +13,22 @@ import {
   openImageModal,
 } from "./index.js";
 
+import { testEditProfile } from "./api.js";
+
 export const handleProfileEditFormSubmit = (event) => {
   event.preventDefault();
 
-  profileTitle.textContent = nameInput.value;
-  profileDescription.textContent = jobInput.value;
+  testEditProfile(nameInput.value, jobInput.value)
+    .then((data) => {
+      profileTitle.textContent = data.name;
+      profileDescription.textContent = data.about;
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+
+  // profileTitle.textContent = nameInput.value;
+  // profileDescription.textContent = jobInput.value;
   closeModal(popupEdit);
 };
 

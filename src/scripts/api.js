@@ -6,26 +6,32 @@ const config = {
   },
 };
 
+const checkResponse = (response) => {
+  if (response.ok) {
+    return response.json();
+  }
+  return Promise.reject(`Произошла ошибка: ${response.status}`);
+};
+
 export const getInitialProfileData = () => {
   return fetch(`${config.baseUrl}/users/me`, {
     headers: config.headers,
-  }).then((res) => {
-    if (res.ok) {
-      return res.json();
-    } else {
-      return Promise.reject(`Произошла ошибка: ${res.status}`);
-    }
-  });
+  }).then(checkResponse);
 };
 
 export const getInitialCards = () => {
   return fetch(`${config.baseUrl}/cards`, {
     headers: config.headers,
-  }).then((res) => {
-    if (res.ok) {
-      return res.json();
-    } else {
-      return Promise.reject(`Произошла ошибка: ${res.status}`);
-    }
-  });
+  }).then(checkResponse);
+};
+
+export const testEditProfile = (nameInput, aboutInput) => {
+  return fetch(`${config.baseUrl}/users/me`, {
+    method: "PATCH",
+    headers: config.headers,
+    body: JSON.stringify({
+      name: nameInput,
+      about: aboutInput,
+    }),
+  }).then(checkResponse);
 };
