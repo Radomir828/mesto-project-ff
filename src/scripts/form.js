@@ -13,7 +13,7 @@ import {
   openImageModal,
 } from "./index.js";
 
-import { editProfile } from "./api.js";
+import { editProfile, addNewCard } from "./api.js";
 
 export const handleProfileEditFormSubmit = (event) => {
   event.preventDefault();
@@ -27,28 +27,33 @@ export const handleProfileEditFormSubmit = (event) => {
       console.error(err);
     });
 
-  // profileTitle.textContent = nameInput.value;
-  // profileDescription.textContent = jobInput.value;
   closeModal(popupEdit);
 };
 
 export const handleFormAddCardSubmit = (event) => {
   event.preventDefault();
 
-  const cardData = {
-    name: cardNameInput.value,
-    link: cardUrlInput.value,
-  };
-  const cardElement = createCard(
-    cardData,
-    deleteCard,
-    likeCard,
-    openImageModal
-  );
-  cardsContainer.prepend(cardElement);
-  closeModal(popupAddCard);
+  addNewCard(cardNameInput.value, cardUrlInput.value)
+    .then((data) => {
+      const cardData = {
+        name: data.name,
+        link: data.link,
+      };
 
-  // после успешного сабмита, очищаем поля формы
-  const form = event.target;
-  form.reset();
+      const cardElement = createCard(
+        cardData,
+        deleteCard,
+        likeCard,
+        openImageModal
+      );
+      cardsContainer.prepend(cardElement);
+      closeModal(popupAddCard);
+
+      // после успешного сабмита, очищаем поля формы
+      const form = event.target;
+      form.reset();
+    })
+    .catch((err) => {
+      console.error(err);
+    });
 };
