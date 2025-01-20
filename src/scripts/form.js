@@ -35,16 +35,12 @@ export const handleFormAddCardSubmit = (event) => {
 
   addNewCard(cardNameInput.value, cardUrlInput.value)
     .then((data) => {
-      const cardData = {
-        name: data.name,
-        link: data.link,
-      };
-
       const cardElement = createCard(
-        cardData,
+        data,
         deleteCard,
         likeCard,
-        openImageModal
+        openImageModal,
+        data.owner._id
       );
       cardsContainer.prepend(cardElement);
       closeModal(popupAddCard);

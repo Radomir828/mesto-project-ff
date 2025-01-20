@@ -46,3 +46,10 @@ export const addNewCard = (cardName, cardLink) => {
     }),
   }).then(checkResponse);
 };
+
+export const removeCard = (cardId) => {
+  return fetch(`${config.baseUrl}/cards/${cardId}`, {
+    method: "DELETE",
+    headers: config.headers,
+  }).then(checkResponse);
+};

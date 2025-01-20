@@ -1,13 +1,26 @@
-export function deleteCard(cardElement) {
-  cardElement.remove();
+import { removeCard } from "./api";
+
+export function deleteCard(cardElement, cardId) {
+  removeCard(cardId)
+    .then(() => {
+      cardElement.remove();
+    })
+    .catch((err) => {
+      console.error(err);
+    });
 }
 
 export const likeCard = (likeButton) => {
   likeButton.classList.toggle("card__like-button_is-active");
 };
 
-export function createCard(cardData, deleteCard, likeCard, openImageModal) {
-  // console.log(cardData.likes.length);
+export function createCard(
+  cardData,
+  deleteCard,
+  likeCard,
+  openImageModal,
+  userId
+) {
   const cardTemplate = document.querySelector("#card-template").content;
 
   const cardElement = cardTemplate.querySelector(".card").cloneNode(true);
@@ -20,11 +33,18 @@ export function createCard(cardData, deleteCard, likeCard, openImageModal) {
   cardElementTitle.textContent = cardData.name;
   cardElementLikeCount.textContent = cardData.likes.length;
 
+  const cardId = cardData._id;
+
   const cardElementDeleteButton = cardElement.querySelector(
     ".card__delete-button"
   );
+
+  if (cardData.owner._id !== userId) {
+    cardElementDeleteButton.remove();
+  }
+
   cardElementDeleteButton.addEventListener("click", () => {
-    deleteCard(cardElement);
+    deleteCard(cardElement, cardId);
   });
 
   const buttonLikeCard = cardElement.querySelector(".card__like-button");

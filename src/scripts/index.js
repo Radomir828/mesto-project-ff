@@ -82,24 +82,29 @@ const selectors = {
 
 enableValidation(selectors);
 
-getInitialProfileData()
-  .then((result) => {
-    profileTitle.textContent = result.name;
-    profileDescription.textContent = result.about;
-    profileImage.style.backgroundImage = `url(${result.avatar})`;
-  })
-  .catch((err) => console.error(err));
+const setInitialProfileData = (profileData) => {
+  profileTitle.textContent = profileData.name;
+  profileDescription.textContent = profileData.about;
+  profileImage.style.backgroundImage = `url(${profileData.avatar})`;
+};
 
-getInitialCards()
-  .then((result) => {
-    result.forEach((cardData) => {
-      const cardElement = createCard(
-        cardData,
-        deleteCard,
-        likeCard,
-        openImageModal
-      );
-      cardsContainer.append(cardElement);
-    });
+const setInitialCards = (cards, userId) => {
+  cards.forEach((cardData) => {
+    const cardElement = createCard(
+      cardData,
+      deleteCard,
+      likeCard,
+      openImageModal,
+      userId
+    );
+    cardsContainer.append(cardElement);
+  });
+};
+
+Promise.all([getInitialProfileData(), getInitialCards()])
+  .then(([profileData, initialCards]) => {
+    const userId = profileData._id;
+    setInitialProfileData(profileData);
+    setInitialCards(initialCards, userId);
   })
   .catch((err) => console.error(err));
