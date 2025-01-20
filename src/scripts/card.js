@@ -7,15 +7,18 @@ export const likeCard = (likeButton) => {
 };
 
 export function createCard(cardData, deleteCard, likeCard, openImageModal) {
+  // console.log(cardData.likes.length);
   const cardTemplate = document.querySelector("#card-template").content;
 
   const cardElement = cardTemplate.querySelector(".card").cloneNode(true);
   const cardElementImage = cardElement.querySelector(".card__image");
   const cardElementTitle = cardElement.querySelector(".card__title");
+  const cardElementLikeCount = cardElement.querySelector(".card__like-count");
 
   cardElementImage.src = cardData.link;
   cardElementImage.alt = cardData.name;
   cardElementTitle.textContent = cardData.name;
+  cardElementLikeCount.textContent = cardData.likes.length;
 
   const cardElementDeleteButton = cardElement.querySelector(
     ".card__delete-button"
