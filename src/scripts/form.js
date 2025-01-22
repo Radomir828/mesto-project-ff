@@ -3,6 +3,7 @@ import { createCard, deleteCard, likeCard } from "./card";
 import {
   popupEdit,
   popupAddCard,
+  popupOpenAvatar,
   cardsContainer,
   nameInput,
   jobInput,
@@ -11,9 +12,28 @@ import {
   profileTitle,
   profileDescription,
   openImageModal,
+  profileImage,
+  avatarUrlInput,
 } from "./index.js";
 
-import { editProfile, addNewCard } from "./api.js";
+import { editProfile, addNewCard, addNewAvatar } from "./api.js";
+
+const cleanForm = (event) => {
+  const form = event.target;
+  form.reset();
+};
+
+export const handleAvatarEditFormSubmit = (event) => {
+  event.preventDefault();
+  addNewAvatar(avatarUrlInput.value)
+    .then((result) => {
+      profileImage.style.backgroundImage = `url(${result.avatar})`;
+      cleanForm(event);
+    })
+    .catch((err) => console.error(err));
+
+  closeModal(popupOpenAvatar);
+};
 
 export const handleProfileEditFormSubmit = (event) => {
   event.preventDefault();
@@ -46,8 +66,7 @@ export const handleFormAddCardSubmit = (event) => {
       closeModal(popupAddCard);
 
       // после успешного сабмита, очищаем поля формы
-      const form = event.target;
-      form.reset();
+      cleanForm(event);
     })
     .catch((err) => {
       console.error(err);

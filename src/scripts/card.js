@@ -62,8 +62,6 @@ export function createCard(
     buttonLikeCard.classList.add("card__like-button_is-active");
   }
 
-  console.log(cardData);
-
   cardElementDeleteButton.addEventListener("click", () => {
     deleteCard(cardElement, cardId);
   });
