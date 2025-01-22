@@ -47,7 +47,6 @@ export const profileImage = document.querySelector(".profile__image");
 
 export const popupImage = document.querySelector(".popup__image");
 export const popupImageDescription = document.querySelector(".popup__caption");
-
 export const openImageModal = (cardData) => {
   popupImage.src = cardData.link;
   popupImage.alt = cardData.name;

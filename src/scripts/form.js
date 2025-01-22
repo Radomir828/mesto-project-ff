@@ -18,6 +18,15 @@ import {
 
 import { editProfile, addNewCard, addNewAvatar } from "./api.js";
 
+const renderLoading = (isloading, btnText, formElement) => {
+  const button = formElement.querySelector(".popup__button");
+  if (isloading) {
+    button.textContent = btnText;
+  } else {
+    button.textContent = btnText;
+  }
+};
+
 const cleanForm = (event) => {
   const form = event.target;
   form.reset();
@@ -25,19 +34,21 @@ const cleanForm = (event) => {
 
 export const handleAvatarEditFormSubmit = (event) => {
   event.preventDefault();
+  renderLoading(true, "Сохранение", event.target);
   addNewAvatar(avatarUrlInput.value)
     .then((result) => {
       profileImage.style.backgroundImage = `url(${result.avatar})`;
       cleanForm(event);
     })
-    .catch((err) => console.error(err));
+    .catch((err) => console.error(err))
+    .finally(() => renderLoading(false, "Сохранить", event.target));
 
   closeModal(popupOpenAvatar);
 };
 
 export const handleProfileEditFormSubmit = (event) => {
   event.preventDefault();
-
+  renderLoading(true, "Сохранение", event.target);
   editProfile(nameInput.value, jobInput.value)
     .then((data) => {
       profileTitle.textContent = data.name;
@@ -45,14 +56,15 @@ export const handleProfileEditFormSubmit = (event) => {
     })
     .catch((err) => {
       console.error(err);
-    });
+    })
+    .finally(() => renderLoading(false, "Сохранить", event.target));
 
   closeModal(popupEdit);
 };
 
 export const handleFormAddCardSubmit = (event) => {
   event.preventDefault();
-
+  renderLoading(true, "Создание", event.target);
   addNewCard(cardNameInput.value, cardUrlInput.value)
     .then((data) => {
       const cardElement = createCard(
@@ -70,5 +82,6 @@ export const handleFormAddCardSubmit = (event) => {
     })
     .catch((err) => {
       console.error(err);
-    });
+    })
+    .finally(() => renderLoading(true, "Создать", event.target));
 };
